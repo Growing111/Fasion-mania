@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.ly.dao.LiuYanDao">
+    <insert id="addLiuYan" parameterType="com.ly.entity.LiuYan">
+        insert into liuyan (nickname,email,telphone,text,u_id) VALUES (#{nickname},#{email},#{telphone},#{text},#{u_id})
+    </insert>
+    <select id="findAllLiuyan" resultType="com.ly.entity.LiuYan">
+        select * from liuyan
+    </select>
+ </mapper>

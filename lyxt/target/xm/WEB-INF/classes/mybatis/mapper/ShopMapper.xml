@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.ly.dao.ShopDao">
+  <select id="getAll" resultType="com.ly.entity.Shop">
+    SELECT * FROM shop where id limit 0,8
+  </select>
+  <select id="findByid" parameterType="int" resultType="com.ly.entity.Shop">
+      SELECT * from shop where id=#{id}
+  </select>
+  <select id="getAllByType" resultType="com.ly.entity.Shop">
+      select  s.* from shop s,type t where s.t_id=t.id and t.leixing=#{leixing} and t.sex=#{sex}
+  </select>
+    <select id="getAllByCar" parameterType="int" resultType="com.ly.entity.Shop">
+        select s.* from shop s,car c where s.id=c.s_id and c.u_id=#{u_id};
+    </select>
+
+    <select id="getAllByOrder" parameterType="int" resultMap="allorder">
+        select * from shop s,orders o, orderdetail od where  od.s_id=s.id and o.id=od.o_id and o.u_id=#{u_id} ;
+    </select>
+    <resultMap id="allorder" type="com.ly.entity.Shop">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result property="descrip" column="descrip"/>
+        <result column="picture" property="picture"/>
+        <association property="orderDetail" resultMap="orDetail"/>
+    </resultMap>
+    <resultMap id="orDetail" type="com.ly.entity.OrderDetail">
+        <result property="id" column="id"/>
+        <result property="o_id" column="o_id"/>
+        <result property="s_id" column="s_id"/>
+        <result property="count" column="count"/>
+        <result property="color" column="color"/>
+        <result property="size" column="size"/>
+        <association property="orders"  javaType="com.ly.entity.Orders">
+            <result property="id" column="id" />
+            <result property="address" column="address"/>
+            <result property="makeTime" column="makeTime"/>
+            <result property="status" column="status"/>
+        </association>
+    </resultMap>
+    <select id="ShowAllShop" resultMap="allshop">
+        select * from shop s,type t where s.t_id=t.id
+    </select>
+    <resultMap id="allshop" type="com.ly.entity.Shop">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="descrip" property="descrip"/>
+        <result column="picture" property="picture"/>
+        <association property="type" javaType="com.ly.entity.Type">
+            <result column="id" property="id"/>
+            <result column="leixing" property="leixing"/>
+            <result column="sex" property="sex"/>
+        </association>
+    </resultMap>
+    
+    <select id="getAllUserToShop" resultMap="theshop">
+        select * from orders o,orderdetail od,shop s,user u where u.id=o.u_id and od.o_id=o.id and od.s_id=s.id
+    </select>
+    <resultMap id="theshop" type="com.ly.entity.Shop">
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result property="descrip" column="descrip"/>
+        <result column="picture" property="picture"/>
+        <association property="orderDetail" resultMap="theDetail"/>
+    </resultMap>
+    <resultMap id="theDetail" type="com.ly.entity.OrderDetail">
+        <result property="o_id" column="o_id"/>
+        <result property="s_id" column="s_id"/>
+        <result property="count" column="count"/>
+        <result property="color" column="color"/>
+        <result property="size" column="size"/>
+        <association property="orders"  resultMap="theorder"/>
+    </resultMap>
+    <resultMap id="theorder" type="com.ly.entity.Orders">
+        <result property="id" column="id" />
+        <result property="address" column="address"/>
+        <result property="makeTime" column="makeTime"/>
+        <result property="status" column="status"/>
+        <association property="user" resultMap="theUser"/>
+    </resultMap>
+    <resultMap id="theUser" type="com.ly.entity.User">
+        <result property="nickname" column="nickname"/>
+    </resultMap>
+ </mapper>

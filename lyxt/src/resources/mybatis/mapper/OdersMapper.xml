@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.ly.dao.OrdersDao">
+  <insert id="addOrder" parameterType="com.ly.entity.Orders">
+      <selectKey keyProperty="id" resultType="int" order="AFTER">
+          SELECT LAST_insert_id()
+      </selectKey>
+      insert into orders (address,maketime,u_id) VALUES (#{address},#{makeTime},#{u_id})
+  </insert>
+  <insert id="addOrdersDetail" parameterType="com.ly.entity.OrderDetail">
+      insert into orderdetail (o_id,s_id,count,color,size) VALUES (#{o_id},#{s_id},#{count},#{color},#{size})
+  </insert>
+    <delete id="deleteOeder" parameterType="int">
+        DELETE from orders where id=#{id}
+    </delete>
+ </mapper>
