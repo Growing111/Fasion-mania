@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.ly.fashionmania.dao.CommentDao">
+    <insert id="addLiuYan" parameterType="com.ly.fashionmania.entity.Comment">
+        insert into liuyan (nickname,email,telphone,text,u_id) VALUES (#{nickname},#{email},#{telphone},#{text},#{u_id})
+    </insert>
+    <select id="findAllLiuyan" resultType="com.ly.fashionmania.entity.Comment">
+        select * from liuyan
+    </select>
+ </mapper>

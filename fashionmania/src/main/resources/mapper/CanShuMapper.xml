@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.ly.fashionmania.dao.ParameterDao">
+  <select id="getAllByS_id" parameterType="int" resultType="com.ly.fashionmania.entity.Parameter">
+      select * from canshu where s_id=#{s_id}
+  </select>
+ </mapper>
