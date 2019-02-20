@@ -54,7 +54,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     // <%--"<c:if test="${empty user}"><a href='#' class='item_add'>加入购物车</a></c:if>")--%>
                         $(".col-md2:eq("+i+") a:eq(2)").attr("href"," /addcar?s_id="+object['id']+"&u_id=${user.id}");
                         $(".col-md2:eq("+i+") img").attr("src",pict1[0]);
-                        $(".col-md2:eq("+i+") h5").html("￥"+object['price']);
+                        $(".col-md2:eq("+i+") h5").html( "￥"+object['price']);
                         i++;
                     })
                 }
@@ -79,8 +79,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>|</span><a href="/exit">退出</a></p>
                 </span>
                 <span th:unless="${user!=null}">
-                        <p class="log"><a href="account.jsp">登录</a>
-                            <span>|</span><a  href="register.jsp">注册</a></p>
+                        <p class="log"><a th:href="@{/gotoAccount}">登录</a>
+                            <span>|</span><a  th:href="@{/gotoRegister}">注册</a></p>
                 </span>
                 <div class="cart box_1">
                      <span th:if="${user!=null}">
@@ -104,7 +104,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="col-sm-8 h_menu4">
                 <ul class="memenu skyblue">
-                    <li class=" grid"><a  href="index.html">主页</a></li>
+                    <li class=" grid"><a  th:href="@{/gotoIndex}">主页</a></li>
                     <li><a  href="#">男装</a>
                         <div class="mepanel">
                             <div class="row">
