@@ -2,31 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
-    <link th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css" rel="stylesheet" type="text/css"
+          media="all"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script th:src="@{/js/jquery.min.js}"></script>
     <!-- Custom Theme files -->
     <!--theme-style-->
-    <link th:href="@{/css/style.css}" href="../static/css/style.css" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" href="../static/css/style.css" rel="stylesheet"/>
     <!--//theme-style-->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Fashion Mania Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
-    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
     <!-- start menu -->
-    <link th:href="@{/css/memenu.css}" href="../static/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+    <link th:href="@{/css/memenu.css}" href="../static/css/memenu.css" rel="stylesheet" type="text/css" media="all"/>
     <script type="text/javascript" th:src="@{/js/memenu.js}" src="../static/js/memenu.js"></script>
-    <script>$(document).ready(function(){$(".memenu").memenu();});</script>
-    <script th:src="@{/js/simpleCart.min.js}"> </script>
+    <script>$(document).ready(function () {
+        $(".memenu").memenu();
+    });</script>
+    <script th:src="@{/js/simpleCart.min.js}"></script>
     <!-- slide -->
     <style type="text/css">
-        .name{
+        .name {
             font-size: 14px;
         }
-        .img-responsive{
-            width:350px;
-            height:347px;
+
+        .img-responsive {
+            width: 350px;
+            height: 347px;
         }
     </style>
     <script th:src="@{/js/responsiveslides.min.js}" src="../static/js/responsiveslides.min.js"></script>
@@ -41,20 +51,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
         $(document).ready(function () {
             $.ajax({
-                url:'/allshop',
-                success:function (result) {
-                    var i=0;
-                    $.each(result,function (index,object) {
-                        var pict1=object['picture'].split(";");
-                        pict1[0]="/images/shop"+pict1[0];
-                        $(".col-md2:eq("+i+") a:eq(0)").attr("href","/findshop?id="+object['id']+"");
-                        $(".col-md2:eq("+i+") a:eq(1)").attr("href","/findshop?id="+object['id']+"");
-                        $(".col-md2:eq("+i+") a:eq(1)").html(object['name']);
-                    // <%--$(".price").append("<a href='/addcar?s_id="+object['id']+"&u_id=${user.id}' class='item_add'>加入购物车</a> "+--%>
-                    // <%--"<c:if test="${empty user}"><a href='#' class='item_add'>加入购物车</a></c:if>")--%>
-                        $(".col-md2:eq("+i+") a:eq(2)").attr("href"," /addcar?s_id="+object['id']+"&u_id=${user.id}");
-                        $(".col-md2:eq("+i+") img").attr("src",pict1[0]);
-                        $(".col-md2:eq("+i+") h5").html( "￥"+object['price']);
+                url: '/allshop',
+                success: function (result) {
+                    var i = 0;
+                    $.each(result, function (index, object) {
+                        // var user=[[${session.user}]];
+                        var pict1 = object['picture'].split(";");
+                        pict1[0] = "/images/shop" + pict1[0];
+                        $(".col-md2:eq(" + i + ") a:eq(0)").attr("href", "/findshop?id=" + object['id'] + "");
+                        $(".col-md2:eq(" + i + ") a:eq(1)").attr("href", "/findshop?id=" + object['id'] + "");
+                        $(".col-md2:eq(" + i + ") a:eq(1)").html(object['name']);
+                       // $(".price").append("<a href='/addcar?s_id="+object['id']+"&u_id=${user.id}' class='item_add'>加入购物车</a> "
+                        //    "<c:if test="${empty user}"><a href='#' class='item_add'>加入购物车</a></c:if>";
+                        //     $(".col-md2:eq("+i+") a:eq(2)").attr("href"," /addcar?s_id="+object['id']+"&u_id=${session.user.id}");
+                        //     $(".col-md2:eq("+i+") a:eq(2)").append(
+                          // th:href"," @{/addcar(s_id="+object['id']+",u_id=${session.user.id})}");
+                        $(".col-md2:eq(" + i + ") img").attr("src", pict1[0]);
+                        $(".col-md2:eq(" + i + ") h5").html("￥" + object['price']);
                         i++;
                     })
                 }
@@ -73,28 +86,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <a href="index.html"><img th:src="@{/images/logo.png}" alt=""></a>
             </div>
             <div class="col-sm-4 header-left">
-                <span th:if="${user!=null}">
-                     <p class="log"><a href="/findAllOrder?u_id=${user.id}">
-                         <span th:text="${user.nickname}"></span></a>
+                <span th:if="${session.user!=null}">
+                     <p class="log"><a th:href="@{/findAllOrder(u_id=${session.user.id})}">
+                         <span th:text="${session.user.nickname}"></span></a>
                             <span>|</span><a href="/exit">退出</a></p>
                 </span>
-                <span th:unless="${user!=null}">
+                <span th:unless="${session.user!=null}">
                         <p class="log"><a th:href="@{/gotoAccount}">登录</a>
-                            <span>|</span><a  th:href="@{/gotoRegister}">注册</a></p>
+                            <span>|</span><a th:href="@{/gotoRegister}">注册</a></p>
                 </span>
                 <div class="cart box_1">
-                     <span th:if="${user!=null}">
-                        <a href="/displaycar?u_id=${user.id}"></a>
+                     <span th:if="${session.user!=null}">
+                        <a th:href="@{/displaycar(u_id=${session.user.id})}">
+                         <h3><div class="total">
+                        <span class="simpleCart_total"></span></div>
+                        <img th:src="@{/images/cart.png}" alt=""/></h3>
+                        <p><a href="javascript:;" class="simpleCart_empty">空购物车</a></p>
+                        </a>
                      </span>
-                    <h3> <div class="total">
+                    <span th:unless="${session.user!=null}">
+                        <h3> <div class="total">
                         <span class="simpleCart_total"></span></div>
                         <img th:src="@{/images/cart.png}" alt=""/></h3>
                     <p><a href="javascript:;" class="simpleCart_empty">空购物车</a></p>
+                    </span>
 
                 </div>
-                <div class="clearfix"> </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="clearfix"> </div>
+            <div class="clearfix"></div>
         </div>
     </div>
     <div class="container">
@@ -104,8 +124,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="col-sm-8 h_menu4">
                 <ul class="memenu skyblue">
-                    <li class=" grid"><a  th:href="@{/gotoIndex}">主页</a></li>
-                    <li><a  href="#">男装</a>
+                    <li class=" grid"><a th:href="@{/gotoIndex}">主页</a></li>
+                    <li><a href="#">男装</a>
                         <div class="mepanel">
                             <div class="row">
                                 <div class="col1">
@@ -167,14 +187,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                         </div>
                     </li>
-                    <li><a  href="typo.html">推送</a></li>
-                    <li><a class="color6" href="contact.jsp">联系我们</a></li>
+                    <li><a href="typo.html">推送</a></li>
+                    <li><a class="color6" th:href="gotoContact">联系我们</a></li>
                 </ul>
             </div>
             <div class="col-sm-2 search">
-                <a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i> </a>
+                <a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i
+                        class="glyphicon glyphicon-search"> </i> </a>
             </div>
-            <div class="clearfix"> </div>
+            <div class="clearfix"></div>
             <!---pop-up-box---->
             <script type="text/javascript" th:src="@{/js/modernizr.custom.min.js}"></script>
             <link th:href="@{css/popuo-box.css}" rel="stylesheet" type="text/css" media="all"/>
@@ -184,13 +205,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="search-top">
                     <div class="login">
                         <input type="submit" value="">
-                        <input type="text" value="Type something..." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '';}">
+                        <input type="text" name="theCondition" value="Type something..." onFocus="this.value = '';"
+                               onBlur="if (this.value == '') {this.value = '';}">
+                        </form>
                     </div>
-                    <p>	Shopping</p>
+                    <p> Shopping</p>
                 </div>
             </div>
             <script>
-                $(document).ready(function() {
+                $(document).ready(function () {
                     $('.popup-with-zoom-anim').magnificPopup({
                         type: 'inline',
                         fixedContentPos: false,
@@ -202,7 +225,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         removalDelay: 300,
                         mainClass: 'my-mfp-zoom-in'
                     });
+                <form action="/inSearchOfshop">
                 });
+
             </script>
             <!---->
         </div>
@@ -245,26 +270,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-3 col-md2">
                     <div class="col-md1 simpleCart_shelfItem">
                         <a href="single.html">
-                            <img class="img-responsive" th:src="@{/images/pi.png}" alt="" />
+                            <img class="img-responsive" th:src="@{/images/pi.png}" alt=""/>
                         </a>
                         <h3><a class="name" href="single.html">上衣</a></h3>
                         <div class="price">
                             <h5 class="item_price">￥300</h5>
                             <a href="#" class="item_add">加入购物车</a>
-                            <div class="clearfix"> </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3 col-md2">
                     <div class="col-md1 simpleCart_shelfItem">
                         <a href="single.html">
-                            <img class="img-responsive" th:src="@{/images/pi2.png}" alt="" />
+                            <img class="img-responsive" th:src="@{/images/pi2.png}" alt=""/>
                         </a>
                         <h3><a class="name" href="single.html">T恤</a></h3>
                         <div class="price">
                             <h5 class="item_price">￥300</h5>
                             <a href="#" class="item_add">加入购物车</a>
-                            <div class="clearfix"> </div>
+                            <div class="clearfix"></div>
                         </div>
 
                     </div>
@@ -272,13 +297,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-3 col-md2">
                     <div class="col-md1 simpleCart_shelfItem">
                         <a href="single.html">
-                            <img class="img-responsive" th:src="@{/images/pi4.png}" alt="" />
+                            <img class="img-responsive" th:src="@{/images/pi4.png}" alt=""/>
                         </a>
                         <h3><a class="name" href="single.html">衬衫</a></h3>
                         <div class="price">
                             <h5 class="item_price">￥300</h5>
                             <a href="#" class="item_add">加入购物车</a>
-                            <div class="clearfix"> </div>
+                            <div class="clearfix"></div>
                         </div>
 
                     </div>
@@ -286,13 +311,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-3 col-md2">
                     <div class="col-md1 simpleCart_shelfItem">
                         <a href="single.html">
-                            <img class="img-responsive" th:src="@{/images/pi1.png}" alt="" />
+                            <img class="img-responsive" th:src="@{/images/pi1.png}" alt=""/>
                         </a>
                         <h3><a class="name" href="single.html">上衣</a></h3>
                         <div class="price">
                             <h5 class="item_price">￥300</h5>
                             <a href="#" class="item_add">加入购物车</a>
-                            <div class="clearfix"> </div>
+                            <div class="clearfix"></div>
                         </div>
 
                     </div>
@@ -303,13 +328,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-3 col-md2">
                     <div class="col-md1 simpleCart_shelfItem">
                         <a href="single.html">
-                            <img class="img-responsive" th:src="@{/images/pi3.png}" alt="" />
+                            <img class="img-responsive" th:src="@{/images/pi3.png}" alt=""/>
                         </a>
                         <h3><a class="name" href="single.html">衬衫</a></h3>
                         <div class="price">
                             <h5 class="item_price">$300</h5>
                             <a href="#" class="item_add">加入购物车</a>
-                            <div class="clearfix"> </div>
+                            <div class="clearfix"></div>
                         </div>
 
                     </div>
@@ -317,13 +342,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-3 col-md2">
                     <div class="col-md1 simpleCart_shelfItem">
                         <a href="single.html">
-                            <img class="img-responsive" th:src="@{/images/pi5.png}" alt="" />
+                            <img class="img-responsive" th:src="@{/images/pi5.png}" alt=""/>
                         </a>
                         <h3><a class="name" href="single.html">T恤</a></h3>
                         <div class="price">
                             <h5 class="item_price">$300</h5>
                             <a href="#" class="item_add">加入购物车</a>
-                            <div class="clearfix"> </div>
+                            <div class="clearfix"></div>
                         </div>
 
                     </div>
@@ -331,13 +356,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-3 col-md2">
                     <div class="col-md1 simpleCart_shelfItem">
                         <a href="single.html">
-                            <img class="img-responsive" th:src="@{/images/pi6.png}" alt="" />
+                            <img class="img-responsive" th:src="@{/images/pi6.png}" alt=""/>
                         </a>
                         <h3><a class="name" href="single.html">牛仔裤</a></h3>
                         <div class="price">
                             <h5 class="item_price">$300</h5>
                             <a href="#" class="item_add">加入购物车</a>
-                            <div class="clearfix"> </div>
+                            <div class="clearfix"></div>
                         </div>
 
                     </div>
@@ -345,17 +370,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="col-md-3 col-md2">
                     <div class="col-md1 simpleCart_shelfItem">
                         <a href="single.html">
-                            <img class="img-responsive" th:src="@{/images/pi7.png} " alt="" />
+                            <img class="img-responsive" th:src="@{/images/pi7.png} " alt=""/>
                         </a>
                         <h3><a class="name" href="single.html">上衣</a></h3>
                         <div class="price">
                             <h5 class="item_price">$300</h5>
                             <a href="#" class="item_add">加入购物车</a>
-                            <div class="clearfix"> </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
-                <div class="clearfix"> </div>
+                <div class="clearfix"></div>
             </div>
         </div>
     </div>
@@ -363,7 +388,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--//content-->
 <!--footer-->
 <div class="footer">
-    <div class="clearfix"> </div>
+    <div class="clearfix"></div>
     <p class="footer-class">Copyright &copy; 2015.Company name All rights reserved.</p>
 
 </div>

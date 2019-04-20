@@ -19,6 +19,10 @@
     <select id="getAllByOrder" parameterType="int" resultMap="allorder">
         select * from shop s,orders o, orderdetail od where  od.s_id=s.id and o.id=od.o_id and o.u_id=#{u_id} ;
     </select>
+
+    <select id="inSearchOfshop"  resultType="com.ly.fashionmania.entity.Shop">
+        SELECT * from shop WHERE NAME like concat('%',concat(#{condition},'%'));
+    </select>
     <resultMap id="allorder" type="com.ly.fashionmania.entity.Shop">
         <result column="id" property="id"/>
         <result column="name" property="name"/>
@@ -57,8 +61,17 @@
         </association>
     </resultMap>
     
-    <select id="getAllUserToShop" resultMap="theshop">
-        select * from orders o,orderdetail od,shop s,user u where u.id=o.u_id and od.o_id=o.id and od.s_id=s.id
+    <select id="getAllUserToShop" resultType="com.ly.fashionmania.entity.ShopDto">
+        select od.id id,nickname,name,picture,color,size,count,makeTime,status,address
+        from orders o,orderdetail od,shop s,user u where u.id=o.u_id and od.o_id=o.id and od.s_id=s.id
+    </select>
+
+    <select id="allUserToShopPage" resultType="com.ly.fashionmania.entity.ShopDto">
+        select od.id id,nickname,name,picture,color,size,count,makeTime,status,address
+        from orders o,orderdetail od,shop s,user u where u.id=o.u_id and od.o_id=o.id and od.s_id=s.id limit #{page},#{limit}
+    </select>
+    <select id="showAllShopPage" resultMap="allshop">
+        select * from shop s,type t where s.t_id=t.id limit #{page},#{limit}
     </select>
     <resultMap id="theshop" type="com.ly.fashionmania.entity.Shop">
         <result column="name" property="name"/>

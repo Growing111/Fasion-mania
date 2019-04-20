@@ -83,17 +83,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <a href="/gotoIndex"><img th:src="@{/images/logo.png}" alt=""></a>
             </div>
             <div class="col-sm-4 header-left">
-                  <span th:if="${user!=null}">
-                     <p class="log"><a href="/findAllOrder?u_id=${user.id}">
-                         <span th:text="${user.nickname}"></span></a>
+                <span th:if="${session.user!=null}">
+                     <p class="log"><a th:href="@{/findAllOrder(u_id=${session.user.id})}">
+                         <span th:text="${session.user.nickname}"></span></a>
                             <span>|</span><a href="/exit">退出</a></p>
                 </span>
-                <span th:unless="${user!=null}">
-                        <p class="log"><a href="account.jsp">登录</a>
-                            <span>|</span><a  href="register.jsp">注册</a></p>
+                <span th:unless="${session.user!=null}">
+                        <p class="log"><a th:href="@{/gotoAccount}">登录</a>
+                            <span>|</span><a  th:href="@{/gotoRegister}">注册</a></p>
                 </span>
                 <div class="cart box_1">
-                     <span th:if="${user!=null}">
+                     <span th:if="${session.user!=null}">
                         <a href="/displaycar?u_id=${user.id}"></a>
                      </span>
                     <h3> <div class="total">
@@ -114,7 +114,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="col-sm-8 h_menu4">
                 <ul class="memenu skyblue">
-                    <li class=" grid"><a  href="/gotoIndex">主页</a></li>
+                    <li class=" grid"><a  th:href="@{/gotoIndex}">主页</a></li>
                     <li><a  href="#">男装</a>
                         <div class="mepanel">
                             <div class="row">
@@ -178,7 +178,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </div>
                     </li>
                     <li><a  href="typo.html">推送</a></li>
-                    <li><a class="color6" href="contact.jsp">联系我们</a></li>
+                    <li><a class="color6" th:href="gotoContact">联系我们</a></li>
                 </ul>
             </div>
             <div class="col-sm-2 search">
@@ -187,7 +187,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="clearfix"> </div>
             <!---pop-up-box---->
             <script type="text/javascript" th:src="@{/js/modernizr.custom.min.js}"></script>
-            <link th:href="@{/css/popuo-box.css}" rel="stylesheet" type="text/css" media="all"/>
+            <link th:href="@{css/popuo-box.css}" rel="stylesheet" type="text/css" media="all"/>
             <script th:src="@{/js/jquery.magnific-popup.js}" type="text/javascript"></script>
             <!---//pop-up-box---->
             <div id="small-dialog" class="mfp-hide">
@@ -212,7 +212,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         removalDelay: 300,
                         mainClass: 'my-mfp-zoom-in'
                     });
-
                 });
             </script>
             <!---->

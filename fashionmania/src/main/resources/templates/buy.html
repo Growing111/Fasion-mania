@@ -19,23 +19,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script type="text/javascript" th:src="@{/js/memenu.js}" src="../static/js/memenu.js"></script>
     <script>$(document).ready(function(){$(".memenu").memenu();});</script>
     <script th:src="@{js/simpleCart.min.js}"> </script>
-    <script>
+    <script th:inline="javascript">
         $(document).ready(function () {
-            $(".ring-in img").attr("src","images/shop/${shop.picture.split(";")[0]}");
-            $(".sed h5").html("${shop.name}");
-            $(".sed p").html("${shop.descrip}");
-            $("#table .A1>td:nth-child(4)").html("尺寸：${shop.size}<br>颜色:${shop.color}");
-            $("#table .A1>td:nth-child(5)").html("￥${shop.price}");
-            $("#table .A1>td:nth-child(6)").html("${shop.count}");
-            $("#table .A1>td:nth-child(7)").html("${user.nickname}");
-            $("#table .A1>td:nth-child(8)").html("￥${shop.price*shop.count}");
-            $("#table .A3>td:nth-child(6)").html("店铺合计(含运费):￥${shop.price*shop.count}");
-            $(".check-out span").html("￥${shop.price*shop.count}");
+            var shop = [[${shop}]];
+            var user=[[${session.user}]];
+            var imgAddress="images/shop"+shop.picture.split(";")[0];
+            $(".ring-in img").attr("src",imgAddress);
+            $(".sed h5").html(shop.name);
+            $(".sed p").html(shop.descrip);
+            $("#table .A1>td:nth-child(4)").html("尺寸："+shop.size+"<br>颜色:"+shop.color+"");
+            $("#table .A1>td:nth-child(5)").html("￥"+shop.price);
+            $("#table .A1>td:nth-child(6)").html(shop.count);
+            $("#table .A1>td:nth-child(7)").html(user.nickname);
+            $("#table .A1>td:nth-child(8)").html("￥"+shop.price*shop.count);
+            $("#table .A3>td:nth-child(6)").html("店铺合计(含运费):￥"+shop.price*shop.count);
+            $(".check-out span").html("￥"+shop.price*shop.count);
 
             $(".to-buy").click(function () {
                 var address=$("#address").val();
                 if(address!=""&&address!=" "){
-                    window.location.href="/dopay?u_id=${user.id}&address="+address+"&count=${shop.count}&s_id=${shop.id}&color=${shop.color}&size=${shop.size}&price=${shop.price}";
+                    window.location.href="/pay?u_id="+user.id+"&address="+address+"&count="+shop.count+"&s_id="+shop.id+"&color="+shop.color+"&size="+shop.size+"&price="+shop.price+"";
                 }else {
                     alert("请输入收货地址");
                 }
@@ -55,17 +58,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <a href="index.html"><img th:src="@{/images/logo.png}" alt=""></a>
             </div>
             <div class="col-sm-4 header-left">
-                <span th:if="${user!=null}">
-                     <p class="log"><a href="/findAllOrder?u_id=${user.id}">
-                         <span th:text="${user.nickname}"></span></a>
+                <span th:if="${session.user!=null}">
+                     <p class="log"><a th:href="@{/findAllOrder(u_id=${session.user.id})}">
+                         <span th:text="${session.user.nickname}"></span></a>
                             <span>|</span><a href="/exit">退出</a></p>
                 </span>
-                <span th:unless="${user!=null}">
-                        <p class="log"><a href="account.jsp">登录</a>
-                            <span>|</span><a  href="register.jsp">注册</a></p>
+                <span th:unless="${session.user!=null}">
+                        <p class="log"><a th:href="@{/gotoAccount}">登录</a>
+                            <span>|</span><a  th:href="@{/gotoRegister}">注册</a></p>
                 </span>
                 <div class="cart box_1">
-                     <span th:if="${user!=null}">
+                     <span th:if="${session.user!=null}">
                         <a href="/displaycar?u_id=${user.id}"></a>
                      </span>
                     <h3> <div class="total">

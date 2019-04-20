@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{../layui-v2.3.0/layui/css/layui.css}" media="all">
+    <script th:src="@{../js/jquery-3.2.1.js}"></script>
+    <script th:src="@{../layui-v2.3.0/layui/layui.js} " charset="utf-8"></script>
+
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <header th:replace="admin/main::commonHeader"></header>
+    <article>
+        <div class="articleLeft" th:replace="admin/main::commonMenu(1)"></div>
+            <div class="layui-body">
+                <div style="margin-bottom: 5px;">
+                    <table class="layui-table" id="layui_table_id" lay-filter="dataTable">
+                    </table>
+                </div>
+            </div>
+    </article>
+    <footer th:replace="admin/main::commonFooter"></footer>
+</div>
+<script>
+    layui.use('table',function () {
+        var table = layui.table, form = layui.form;
+        table.render({
+            id: 'dataTable',
+            elem: '#layui_table_id',
+            url: "/getalllist",
+            cellMinWidth: 20,
+            page: true,
+            even: true,
+            limit: 10,
+            method: 'post',
+            cols: [
+                [
+                    {type: 'checkbox'},
+                    {field: 'id', title: 'ID', sort: true, width: 80},
+                    {field: 'nickname', title: '用户名', width: 130, unresize: true},
+                    {field: 'name', title: '商品', width: 180},
+                    {
+                        field: 'picture', title: '图片', width: 60, unresize: true, templet: function (row) {
+                            return '<img src="../images/shop' + row.picture.split(';')[0] + '" width="40" height="40">';
+                        }
+                    },
+                    { field: 'color', title: '颜色', width: 80},
+                    {field: 'size', title: '尺寸', width: 70},
+                    {field: 'count', title: '数量', width: 70},
+                    {field: 'makeTime', title: '下单时间', width: 150, templet: function (row) {
+                            var makeTime = row.makeTime;
+                            var datetime = new Date(makeTime);
+                            var year = datetime.getFullYear();
+                            var month = datetime.getMonth() + 1;
+                            var date = datetime.getDate();
+                            var hour = datetime.getHours();
+                            var min = datetime.getMinutes();
+                            var sen = datetime.getSeconds();
+                            var time = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sen;
+                            return time;
+                        }
+                    },
+                    {
+                        field: 'status', title: '支付状态', width: 100, templet: function (row) {
+                            return row.status == "W" ? "已付款" : "未付款";
+                        }
+                    },
+                    { field: 'address', title: '收货地址', width: 250},
+                    {fixed: 'right', title: '操作', width: 180, align: 'center', toolbar: '#barDemo'}
+                ]
+            ]
+        }),
+        table.on('tool(dataTable)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent === 'detail'){
+                // layui.alert(JSON.stringifr(data)) ; //将编辑的行信息转为json字符串
+                layer.msg(data.id);
+            } else if(layEvent === 'del'){
+                layer.msg('删除'+data.id);
+                console.log(table);
+            } else if(layEvent === 'edit'){
+                layer.msg('编辑');
+            }
+        });
+    });
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+</body>
+</html>

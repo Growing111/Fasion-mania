@@ -9,4 +9,7 @@
    <delete id="deleteOne" parameterType="int">
        delete FROM car where u_id=#{u_id} and s_id=#{s_id}
    </delete>
+    <select id="selectInfo" resultType="com.ly.fashionmania.entity.CarDto">
+        select id,u_id,s_id from car where u_id=#{u_id} and s_id=#{s_id}
+    </select>
  </mapper>

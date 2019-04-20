@@ -21,9 +21,9 @@ public class CanShuController {
     @ResponseBody
     public String getAllByS_id(int s_id, ModelMap model){
         List<Parameter> canshulist=paramterService.getAllByS_id(s_id);
-        String result="";
-        String color="";
-        String size="";
+        String result=new String();
+        String color=new String();
+        String size=new String();
         for(int i=0;i<canshulist.size();i++){
             Parameter canShu=canshulist.get(i);
             if(!color.contains(canShu.getColor())){

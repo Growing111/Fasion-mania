@@ -2,12 +2,10 @@ server:
   port: 8080
   servlet:
     context-path: /
-#logging:
-#  config: classpath:logback.xml
-#  level: DEBUG
 
 spring:
   thymeleaf:
+    resources: classpath:/static/
     cache: false
     prefix: classpath:/templates/
     suffix: .html
@@ -20,11 +18,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
-#日志
-#logging:
-#  level: debug
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 #  config-location: classpath:mybatis_config.xml
   type-aliases-package: com.ly.fashionmania.entity
+logging:
+  level:
+    com.ly.fashionmania.dao: debug

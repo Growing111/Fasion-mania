@@ -7,6 +7,10 @@
  <select id="getUsers" resultType="com.ly.fashionmania.entity.User">
     select * from user;
  </select>
+
+ <select id="getUsersPage" resultType="com.ly.fashionmania.entity.User">
+  select * from user limit #{page},#{limit};
+ </select>
  <!-- int deleteUserById(Integer id) -->
  <delete id="deleteUserById" parameterType="int">
  delete  from user where id=#{id}

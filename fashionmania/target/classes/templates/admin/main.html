@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <link rel="stylesheet" th:href="@{../layui-v2.3.0/layui/css/layui.css}">
+    <link rel="stylesheet" th:src="@{../css/main.css}">
+    <script th:src="@{../layui-v2.3.0/layui/layui.js}"></script>
+    <script th:src="@{../js/jquery-3.2.1.js}"></script>
+</head>
+<body class="layui-layout-body">
+
+<div class="layui-layout layui-layout-admin">
+    <header th:fragment="commonHeader">
+        <div class="layui-header">
+            <div class="layui-logo">Fashionmania购物网站</div>
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item fortab checked prepaids">
+                    <a class="changeuserinfo" href="#">所有商品</a>
+                </li>
+                <li class="layui-nav-item fortab prepaids">
+                    <a class="uploadphoto" href="#">查看所有的订单</a>
+                </li>
+                <li class="layui-nav-item fortab prepaids">
+                    <a class="updatepsw" href="#">查看所有留言</a>
+                </li>
+                <li class="layui-nav-item fortab prepaids">
+                    <a class="lookupall" href="#">查看所有的用户</a>
+                </li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img th:src="@{/images/heh1.jpg}" height="100%" class="layui-nav-img">
+                        <!--<span th:text="${admin.username}"></span>-->
+                        <span th:text="${session.admin.getUsername()}"></span>
+                    </a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/adminexit">退出登录</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <article>
+        <div class="articleLeft" th:fragment="commonMenu(index)">
+            <div class="layui-side layui-bg-black">
+                <div class="layui-side-scroll">
+                    <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                        <li class="layui-nav-item layui-nav-itemed">
+                            <div><a th:href="@{/gotoAllShop}" th:class="${index}==0?'activeMenu':''">所有商品</a></div>
+                        </li>
+                        <li class="layui-nav-item">
+                            <div><a th:href="@{/gotoAllOrder}" th:class="${index}==1?'activeMenu':''">查看所有的订单</a>
+                            </div>
+                        </li>
+                        <li class="layui-nav-item">
+                            <div><a th:href="@{/gotoAllLiuyan}" th:class="${index}==2?'activeMenu':''">查看所有留言</a></div>
+                        </li>
+                        <li class="layui-nav-item">
+                            <div><a th:href="@{/gotoAllUser}" th:class="${index}==3?'activeMenu':''">查看所有的用户</a></div>
+                        </li>
+                        <!--<li class="layui-nav-item">-->
+                            <!--<div><a th:href="@{/gotoTest}" th:class="${index}==4?'activeMenu':''">Test所有的用户</a></div>-->
+                        <!--</li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="context">
+            <div class="layui-body">
+                <div class="layui-carousel" id="test1">
+                    <div carousel-item>
+                        <div>
+                            <img src="images/i4.jpg">
+                        </div>
+                        <div>
+                            <img src="images/i1.jpg">
+                        </div>
+                        <div>
+                            <img src="images/i2.jpg">
+                        </div>
+                        <div>
+                            <img src="images/i3.jpg">
+                        </div>
+                    </div>
+                </div>
+                <div class="tablelist hidedomdiv">
+                    <!--<iframe th:replace="admin/allshop::html"></iframe>-->
+                    <!--<div th:insert="admin/allshop::html"></div>-->
+                </div>
+                <div class="tablelist hidedomdiv">
+                    <!--<iframe th:replace="admin/allorder::html"></iframe>-->
+                    <!--<div th:insert="admin/allorder::html"></div>-->
+                </div>
+                <div class="tablelist hidedomdiv">
+                    <!--<iframe th:replace="admin/allliuyan::html"></iframe>-->
+                </div>
+                <div class="tablelist hidedomdiv">
+                    <!--<iframe th:replace="admin/alluser::html"></iframe>-->
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <footer th:fragment="commonFooter">
+        <div class="layui-footer">
+            fashion后台管理系统
+        </div>
+    </footer>
+</div>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+    });
+    $(".fortab").click(function () {
+        var number = $(".fortab").index(this);
+        $(this).addClass("checked");
+        $(this).siblings().removeClass("checked");
+        $(".tablelist:eq(" + number + ")").show();
+        $(".tablelist:eq(" + number + ")").siblings().hide();
+    });
+    layui.use('carousel', function () {
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            , width: '100%' //设置容器宽度
+            , height: '100%'
+            , arrow: 'hover' //始终显示箭头
+        });
+    });
+</script>
+</body>
+
+</html>

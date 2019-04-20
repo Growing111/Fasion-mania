@@ -17,6 +17,8 @@ public interface IUserService {
 
 	List<User>getUsers();
 
+	List<User>getUsersPage(int limit,int page);
+
 	User findUser(User user);
 
 	User getUserByEmail(String email);

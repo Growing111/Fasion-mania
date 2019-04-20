@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.ly.fashionmania.dao.CarDao">
+  <insert id="addCar" parameterType="com.ly.fashionmania.entity.Car">
+      insert into car (u_id,s_id) VALUES (#{u_id},#{s_id})
+  </insert>
+   <delete id="deleteOne" parameterType="int">
+       delete FROM car where u_id=#{u_id} and s_id=#{s_id}
+   </delete>
+    <select id="selectInfo" resultType="com.ly.fashionmania.entity.CarDto">
+        select id,u_id,s_id from car where u_id=#{u_id} and s_id=#{s_id}
+    </select>
+ </mapper>

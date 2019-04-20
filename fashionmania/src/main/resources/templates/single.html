@@ -19,9 +19,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             font-size:18px;
         }
     </style>
-    <script>
+    <script th:inline="javascript">
         $(document).ready(function () {
-            var list="${shop.picture}".split(';');
+            var shop = [[${shop}]];
+            var user=[[${session.user}]]
+            console.log(shop.picture+";"+shop.id);
+            var list=shop.picture.split(';');
             $(".slides li:eq(0)").attr("data-thumb","/images/shop"+list[0]+"");
             $(".slides li:eq(0) div img").attr("src","/images/shop"+list[0]+"");
             $(".slides li:eq(1)").attr("data-thumb","/images/shop"+list[1]+"");
@@ -30,7 +33,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             $(".slides li:eq(2) div img").attr("src","/images/shop"+list[2]+"");
             $.ajax({
                 url:'/getcanshu',
-                data:{s_id:${shop.id}},
+                data:{s_id:shop.id},
                 success:function (result) {
                     var canshu=result.split(";");
                     var color=canshu[0].split(",");
@@ -50,13 +53,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 var a1 = $(".available ul li:eq(0) select option:selected").val();
                 var a2 = $(".available ul li:eq(1) select option:selected").val();
                 var a3 = $(".available ul li:eq(2) select option:selected").val();
-                window.location.href = "/dobuy?s_id=${shop.id}&size="+a1+"&color="+a2+"&count="+a3+"";
+                window.location.href = "/dobuy?s_id="+shop.id+"&size="+a1+"&color="+a2+"&count="+a3+"";
             });
 
             $(".available a:eq(1)").click(function () {
 //                var a1 = $(".available ul li:eq(0) select option:selected").val();
 //                var a2 = $(".available ul li:eq(1) select option:selected").val();
-                window.location.href = "/addcar?s_id=${shop.id}&u_id=${user.id}";
+                window.location.href = "/addcar?s_id="+shop.id+"&u_id="+user.id+"";
             });
         });
     </script>
@@ -73,18 +76,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <a href="index.html"><img src="images/logo.png" alt=""></a>
             </div>
             <div class="col-sm-4 header-left">
-                <span th:if="${user!=null}">
-                     <p class="log"><a href="/findAllOrder?u_id=${user.id}">
-                         <span th:text="${user.nickname}"></span></a>
+                <span th:if="${session.user!=null}">
+                     <p class="log"><a th:href="@{/findAllOrder(u_id=${session.user.id})}">
+                         <span th:text="${session.user.nickname}"></span></a>
                             <span>|</span><a href="/exit">退出</a></p>
                 </span>
-                <span th:unless="${user!=null}">
-                        <p class="log"><a href="account.jsp">登录</a>
-                            <span>|</span><a  href="register.jsp">注册</a></p>
+                <span th:unless="${session.user!=null}">
+                        <p class="log"><a th:href="@{/gotoAccount}">登录</a>
+                            <span>|</span><a  th:href="@{/gotoRegister}">注册</a></p>
                 </span>
                 <div class="cart box_1">
-                     <span th:if="${user!=null}">
-                        <a href="/displaycar?u_id=${user.id}"></a>
+                     <span th:if="${session.user!=null}">
+                        <a th:href="@{/displaycar(u_id=${session.user.id})}"></a>
                      </span>
                     <h3> <div class="total">
                         <span class="simpleCart_total"></span></div>
@@ -104,7 +107,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="col-sm-8 h_menu4">
                 <ul class="memenu skyblue">
-                    <li class=" grid"><a  href="index.html">主页</a></li>
+                    <li class=" grid"><a  th:href="@{/gotoIndex}">主页</a></li>
                     <li><a  href="#">男装</a>
                         <div class="mepanel">
                             <div class="row">
@@ -168,7 +171,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </div>
                     </li>
                     <li><a  href="typo.html">推送</a></li>
-                    <li><a class="color6" href="contact.jsp">联系我们</a></li>
+                    <li><a class="color6" th:href="gotoContact">联系我们</a></li>
                 </ul>
             </div>
             <div class="col-sm-2 search">
@@ -177,7 +180,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="clearfix"> </div>
             <!---pop-up-box---->
             <script type="text/javascript" th:src="@{/js/modernizr.custom.min.js}"></script>
-            <link th:href="@{/css/popuo-box.css}" rel="stylesheet" type="text/css" media="all"/>
+            <link th:href="@{css/popuo-box.css}" rel="stylesheet" type="text/css" media="all"/>
             <script th:src="@{/js/jquery.magnific-popup.js}" type="text/javascript"></script>
             <!---//pop-up-box---->
             <div id="small-dialog" class="mfp-hide">
@@ -202,7 +205,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         removalDelay: 300,
                         mainClass: 'my-mfp-zoom-in'
                     });
-
                 });
             </script>
             <!---->
@@ -278,6 +280,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 </select>
                             </li>
                         </ul>
+                        <div class="panel-body">
+                            <span th:utext="${title}"></span>
+                        </div>
                         <a href="javascript:0" class="cart buy">立即购买</a>
                         <a href="javascript:0" class="cart item_add">加入购物车</a>
                     </div>

@@ -9,4 +9,8 @@
     <select id="findAllLiuyan" resultType="com.ly.fashionmania.entity.Comment">
         select * from liuyan
     </select>
+    <select id="findAllLiuyanPage" resultType="com.ly.fashionmania.entity.Comment">
+        select * from liuyan limit #{page},#{limit}
+    </select>
+
  </mapper>

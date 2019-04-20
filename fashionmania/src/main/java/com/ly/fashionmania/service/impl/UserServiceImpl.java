@@ -44,6 +44,11 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	public List<User> getUsersPage(int limit, int page) {
+		return userDao.getUsersPage(limit,page);
+	}
+
+	@Override
 	public User findUser(User user) {
 		return userDao.findUser(user);
 	}

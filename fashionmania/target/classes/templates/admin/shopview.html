@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{../layui-v2.3.0/layui/css/layui.css}" media="all">
+    <!--<link rel="stylesheet" th:href="@{../css/main.css}">-->
+    <script th:src="@{../layui-v2.3.0/layui/layui.js}" charset="utf-8"></script>
+    <script th:src="@{../js/jquery-3.2.1.js}"></script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <header th:replace="admin/main::commonHeader"></header>
+
+    <article>
+        <div class="articleLeft" th:replace="admin/main::commonMenu(4)"></div>
+        <div class="layui-body">
+            <div style="margin-bottom: 5px;">
+                <table class="layui-table" id="layui_table_id" lay-filter="dataTable">
+                </table>
+            </div>
+        </div>
+    </article>
+
+    <footer th:replace="admin/main::commonFooter"></footer>
+</div>
+<script>
+   layui.use('table',function () {
+       var table =layui.table,form=layui.form;
+       table.render({
+           id:'dataTable',
+           elem:'#layui_table_id',
+           url:"/testAllshop",
+           cellMinWidth: 20 ,
+           page: true ,
+           even: true ,
+           limit: 10 ,
+           method : 'post',
+           cols:[
+               [
+               {type:'checkbox'},
+               {field:'id',title:'ID',sort:true,width:100},
+               {field:'name',title:'名字',width:150},
+               {field:'descrip',title:'描述',width:350},
+               {field:'picture',title:'图片',width:150,unresize:true,templet :function (row) {
+                   return '<img src="../images/shop'+row.picture.split(';')[0] +'" width="40" height="40">';
+                   }},
+               {field:'price',title:'价格',sort:true,width:100},
+               {field:'type',title:'类型',width:100,templet: function (row) {
+                       return row.type.leixing;
+                   }},
+               {fixed: 'right',title: '操作', width:180, align:'center',toolbar: '#barDemo'}
+           ]
+           ]
+       });
+       table.on('tool(dataTable)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+           var data = obj.data //获得当前行数据
+               ,layEvent = obj.event; //获得 lay-event 对应的值
+           if(layEvent === 'detail'){
+               // layui.alert(JSON.stringifr(data)) ; //将编辑的行信息转为json字符串
+               layer.msg(data.id);
+           } else if(layEvent === 'del'){
+               layer.msg('删除'+data.id);
+               console.log(table);
+           } else if(layEvent === 'edit'){
+                layer.msg('编辑');
+           }
+       });
+   })
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        //监听表格复选框选择
+        table.on('checkbox(demo)', function (obj) {
+            console.log(obj);
+        });
+        //监听工具条
+        table.on('tool(demo)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.alert('编辑行：<br>' + JSON.stringify(data))
+            }
+        });
+
+        var $ = layui.$, active = {
+            getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('idTest')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            , getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('idTest')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('idTest');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+</html>

@@ -38,17 +38,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <a href="index.html"><img src="images/logo.png" alt=""></a>
             </div>
             <div class="col-sm-4 header-left">
-                <span th:if="${user!=null}">
-                     <p class="log"><a href="/findAllOrder?u_id=${user.id}">
-                         <span th:text="${user.nickname}"></span></a>
+                <span th:if="${session.user!=null}">
+                     <p class="log"><a th:href="@{/findAllOrder(u_id=${session.user.id})}">
+                         <span th:text="${session.user.nickname}"></span></a>
                             <span>|</span><a href="/exit">退出</a></p>
                 </span>
-                <span th:unless="${user!=null}">
-                        <p class="log"><a href="account.jsp">登录</a>
-                            <span>|</span><a  href="register.jsp">注册</a></p>
+                <span th:unless="${session.user!=null}">
+                        <p class="log"><a th:href="@{/gotoAccount}">登录</a>
+                            <span>|</span><a  th:href="@{/gotoRegister}">注册</a></p>
                 </span>
                 <div class="cart box_1">
-                     <span th:if="${user!=null}">
+                     <span th:if="${session.user!=null}">
                         <a href="/displaycar?u_id=${user.id}"></a>
                      </span>
                     <h3> <div class="total">
@@ -69,7 +69,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="col-sm-8 h_menu4">
                 <ul class="memenu skyblue">
-                    <li class=" grid"><a  href="index.html">主页</a></li>
+                    <li class=" grid"><a  th:href="@{/gotoIndex}">主页</a></li>
                     <li><a  href="#">男装</a>
                         <div class="mepanel">
                             <div class="row">
@@ -133,7 +133,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </div>
                     </li>
                     <li><a  href="typo.html">推送</a></li>
-                    <li><a class="color6" href="contact.jsp">联系我们</a></li>
+                    <li><a class="color6" th:href="gotoContact">联系我们</a></li>
                 </ul>
             </div>
             <div class="col-sm-2 search">
@@ -142,7 +142,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="clearfix"> </div>
             <!---pop-up-box---->
             <script type="text/javascript" th:src="@{/js/modernizr.custom.min.js}"></script>
-            <link th:href="@{/css/popuo-box.css}" rel="stylesheet" type="text/css" media="all"/>
+            <link th:href="@{css/popuo-box.css}" rel="stylesheet" type="text/css" media="all"/>
             <script th:src="@{/js/jquery.magnific-popup.js}" type="text/javascript"></script>
             <!---//pop-up-box---->
             <div id="small-dialog" class="mfp-hide">
@@ -167,7 +167,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         removalDelay: 300,
                         mainClass: 'my-mfp-zoom-in'
                     });
-
                 });
             </script>
             <!---->
@@ -183,90 +182,89 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="content-top1">
                 <div class="col-md-4 col-md3">
                     <div class="col-md1 simpleCart_shelfItem">
-                        <a href="/findshop?id=${lists[0].id}">
-                            <img class="img-responsive" src="images/shop${lists[0].picture.split(';')[0]}" alt="" />
+                        <a th:href="@{'/findshop?id='+${lists[0].id}}">
+                            <img class="img-responsive" th:src="@{'/images/shop'+${lists[0].picture.split(';')[0]}}" alt="" />
                         </a>
-                        <h3><a href="/findshop?id=${lists[0].id}">${lists[0].name}</a></h3>
+                        <h3><a th:href="@{'/findshop?id='+${lists[0].id}}"><span th:text="${lists[0].name}"></span></a></h3>
                         <div class="price">
-                            <h5 class="item_price">￥${lists[0].price}</h5>
+                            <h5 class="item_price">￥<span th:text="${lists[0].price}"></span></h5>
                             <a href="#" class="item_add">加入购物车</a>
                             <div class="clearfix"> </div>
                         </div>
                     </div>
                 </div>
-                <c:if test="${not empty lists[1].name}">
+                <div th:if="${lists[1].name}!=null">
                     <div class="col-md-4 col-md3">
                         <div class="col-md1 simpleCart_shelfItem">
-                            <a href="/findshop?id=${lists[1].id}">
-                                <img class="img-responsive" src="images/shop${lists[1].picture.split(";")[0]}" alt="" />
+                            <a th:href="@{'/findshop?id='+${lists[1].id}}">
+                                <img class="img-responsive" th:src="@{'/images/shop'+${lists[1].picture.split(';')[0]}}" alt="" />
                             </a>
-                            <h3><a href="/findshop?id=${lists[1].id}">${lists[1].name}</a></h3>
+                            <h3><a th:href="@{'/findshop?id='+${lists[1].id}}"><span th:text="${lists[1].name}"></span></a></h3>
                             <div class="price">
-                                <h5 class="item_price">￥${lists[1].price}</h5>
-                                <a href="#" class="item_add">加入购物车</a>
-                                <div class="clearfix"> </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </c:if>
-                <c:if test="${not empty lists[2].name}">
-                    <div class="col-md-4 col-md3">
-                        <div class="col-md1 simpleCart_shelfItem">
-                            <a href="/findshop?id=${lists[2].id}">
-                                <img class="img-responsive" src="images/shop${lists[2].picture.split(";")[0]}" alt="" />
-                            </a>
-                            <h3><a href="/findshop?id=${lists[2].id}">${lists[2].name}</a></h3>
-                            <div class="price">
-                                <h5 class="item_price">￥${lists[2].price}</h5>
+                                <h5 class="item_price">￥<span th:text="${lists[1].price}"></span></h5>
                                 <a href="#" class="item_add">加入购物车</a>
                                 <div class="clearfix"> </div>
                             </div>
                         </div>
                     </div>
-                </c:if>
+                </div>
+                <div th:if="${lists[2]!=null}">
+                    <div class="col-md-4 col-md3">
+                        <div class="col-md1 simpleCart_shelfItem">
+                            <a th:href="@{'/findshop?id='+${lists[2].id}}">
+                                <img class="img-responsive" th:src="@{'/images/shop'+${lists[2].picture.split(';')[0]}}" alt="" />
+                            </a>
+                            <h3><a th:href="@{'/findshop?id='+${lists[2].id}}"><span th:text="${lists[2].name}"></span></a></h3>
+                            <div class="price">
+                                <h5 class="item_price">￥<span th:text="${lists[2].price}"></span></h5>
+                                <a href="#" class="item_add">加入购物车</a>
+                                <div class="clearfix"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="clearfix"> </div>
             </div>
             <div class="content-top1">
-                <c:if test="${not empty lists[3].name}">
+                 <div th:if="${lists[3].name!=null}">
+                     <div class="col-md-4 col-md3">
+                         <div class="col-md1 simpleCart_shelfItem">
+                             <a th:href="@{'/findshop?id='+${lists[3].id}}">
+                                 <img class="img-responsive" th:src="@{'/images/shop'+${lists[3].picture.split(';')[0]}}" alt="" />
+                             </a>
+                             <h3><a th:href="@{'/findshop?id='+${lists[3].id}}"><span th:text="${lists[3].name}"></span></a></h3>
+                             <div class="price">
+                                 <h5 class="item_price">￥<span th:text="${lists[3].price}"></span></h5>
+                                 <a href="#" class="item_add">加入购物车</a>
+                                 <div class="clearfix"> </div>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+                <div th:if="${lists[4].name!=null}">
                     <div class="col-md-4 col-md3">
                         <div class="col-md1 simpleCart_shelfItem">
-                            <a href="/findshop?id=${lists[3].id}">
-                                <img class="img-responsive" src="images/shop${lists[3].picture.split(";")[0]}" alt="" />
+                            <a th:href="@{'/findshop?id='+${lists[4].id}}">
+                                <img class="img-responsive" th:src="@{'/images/shop'+${lists[4].picture.split(';')[0]}}" alt="" />
                             </a>
-                            <h3><a href="/findshop?id=${lists[3].id}">${lists[3].name}</a></h3>
+                            <h3><a th:href="@{'/findshop?id='+${lists[4].id}}"><span th:text="${lists[4].name}"></span></a></h3>
                             <div class="price">
-                                <h5 class="item_price">￥${lists[3].price}</h5>
+                                <h5 class="item_price">￥<span th:text="${lists[4].price}"></span></h5>
                                 <a href="#" class="item_add">加入购物车</a>
                                 <div class="clearfix"> </div>
                             </div>
                         </div>
                     </div>
-                </c:if>
-                <c:if test="${not empty lists[4].name}">
+                </div>
+                <div th:if="${lists[5].name!=null}">
                     <div class="col-md-4 col-md3">
                         <div class="col-md1 simpleCart_shelfItem">
-                            <a href="/findshop?id=${lists[4].id}">
-                                <img class="img-responsive" src="images/shop${lists[4].picture.split(";")[0]}" alt="" />
+                            <a th:href="@{'/findshop?id='+${lists[5].id}}">
+                                <img class="img-responsive" th:src="@{'/images/shop'+${lists[5].picture.split(';')[0]}}" alt="" />
                             </a>
-                            <h3><a href="/findshop?id=${lists[4].id}">${lists[4].name}</a></h3>
+                            <h3><a th:href="@{'/findshop?id='+${lists[5].id}}"><span th:text="${lists[5].name}"></span></a></h3>
                             <div class="price">
-                                <h5 class="item_price">￥${lists[4].price}</h5>
-                                <a href="#" class="item_add">加入购物车</a>
-                                <div class="clearfix"> </div>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
-                <c:if test="${not empty lists[5].name}">
-                    <div class="col-md-4 col-md3">
-                        <div class="col-md1 simpleCart_shelfItem">
-                            <a href="/findshop?id=${lists[5].id}">
-                                <img class="img-responsive" src="images/shop${lists[5].picture.split(";")[0]}" alt="" />
-                            </a>
-                            <h3><a href="/findshop?id=${lists[5].id}">${lists[5].name}</a></h3>
-                            <div class="price">
-                                <h5 class="item_price">￥${lists[5].price}</h5>
+                                <h5 class="item_price">￥<span th:text="${lists[5].price}"></span></h5>
                                 <a href="#" class="item_add">加入购物车</a>
                                 <div class="clearfix"> </div>
                             </div>

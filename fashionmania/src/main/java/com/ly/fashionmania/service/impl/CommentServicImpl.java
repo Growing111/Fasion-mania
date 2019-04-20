@@ -6,12 +6,13 @@ import com.ly.fashionmania.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class CommentServicImpl implements ICommentService {
+public class CommentServicImpl implements ICommentService{
 
-    @Autowired
+    @Resource
     private CommentDao commentDao;
 
     @Override
@@ -22,5 +23,10 @@ public class CommentServicImpl implements ICommentService {
     @Override
     public List<Comment> findAllLiuyan() {
         return commentDao.findAllLiuyan();
+    }
+
+    @Override
+    public List<Comment> findAllLiuyanPage(int limit, int page) {
+        return commentDao.findAllLiuyanPage(limit,page);
     }
 }
